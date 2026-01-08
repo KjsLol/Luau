@@ -9,24 +9,38 @@ local function getrandomrobloxuser()
 	return getrandomrobloxuser()
 end
 
-local function applyMorph(c,dat)
+local function applyMorph(c, dat)
 	task.spawn(function()
 		task.wait(0.05)
-		local h=c:FindFirstChildOfClass("Humanoid")
+		local h = c:FindFirstChildOfClass("Humanoid")
 		if not h then return end
-		for _,v in c:GetDescendants() do
-			if v:IsA("Accessory") or v:IsA("Hat") then v:Destroy() end
+
+		for _, v in c:GetDescendants() do
+			if (v:IsA("Accessory") or v:IsA("Hat")) and not v:IsA("Tool") then
+				v:Destroy()
+			end
 		end
-		for _,v in c:GetChildren() do
-			if v:IsA("Shirt") or v:IsA("Pants") or v:IsA("ShirtGraphic") or v:IsA("CharacterMesh") then v:Destroy() end
+
+		for _, v in c:GetChildren() do
+			if v:IsA("Shirt") or v:IsA("Pants") or v:IsA("ShirtGraphic") or v:IsA("CharacterMesh") then
+				v:Destroy()
+			end
 		end
-		local bc=h:FindFirstChildOfClass("BodyColors") if bc then bc:Destroy() end
-		local hd=c:FindFirstChild("Head")
-		if hd then local ms=hd:FindFirstChildOfClass("SpecialMesh") if ms then ms.MeshId="" ms.TextureId="" end end
+		local bc = h:FindFirstChildOfClass("BodyColors")
+		if bc then bc:Destroy() end
+		local hd = c:FindFirstChild("Head")
+		if hd then
+			local ms = hd:FindFirstChildOfClass("SpecialMesh")
+			if ms then
+				ms.MeshId = ""
+				ms.TextureId = ""
+			end
+		end
 		h:ApplyDescriptionClientServer(dat.desc)
-		h.DisplayName=dat.fn
+		h.DisplayName = dat.fn
 	end)
 end
+
 
 local function morphPlayer(victimName)
 	local fake,fakeid=getrandomrobloxuser()
