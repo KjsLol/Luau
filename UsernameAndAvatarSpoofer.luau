@@ -3,7 +3,7 @@ local G,P,LP,ENV=game,game:GetService("Players"),game:GetService("Players").Loca
 local lk=false
 
 local function getrandomrobloxuser()
-	local randomid=math.random(1,1000000)
+	local randomid=math.random(1,8000)
 	local s,e=pcall(function() return P:GetNameFromUserIdAsync(randomid) end)
 	if s and e and e~="" then return e,randomid end
 	return getrandomrobloxuser()
