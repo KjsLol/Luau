@@ -8,19 +8,20 @@ local function getrandomrobloxuser()
 	if s and e and e~="" then return e,randomid end
 	return getrandomrobloxuser()
 end
-
 local function applyMorph(c, dat)
 	task.spawn(function()
 		task.wait(0.05)
 		local h = c:FindFirstChildOfClass("Humanoid")
 		if not h then return end
-
+		local equippedTool
+		if h and h:FindFirstChildOfClass("Tool") then
+			equippedTool = h:FindFirstChildOfClass("Tool")
+		end
 		for _, v in c:GetDescendants() do
 			if (v:IsA("Accessory") or v:IsA("Hat")) and not v:IsA("Tool") then
 				v:Destroy()
 			end
 		end
-
 		for _, v in c:GetChildren() do
 			if v:IsA("Shirt") or v:IsA("Pants") or v:IsA("ShirtGraphic") or v:IsA("CharacterMesh") then
 				v:Destroy()
@@ -38,8 +39,13 @@ local function applyMorph(c, dat)
 		end
 		h:ApplyDescriptionClientServer(dat.desc)
 		h.DisplayName = dat.fn
+		if equippedTool then
+			equippedTool.Parent = c
+			h:EquipTool(equippedTool)
+		end
 	end)
 end
+
 
 
 local function morphPlayer(victimName)
