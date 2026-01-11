@@ -1,0 +1,19 @@
+xpcall(function()
+local G,P,LP=game,game:GetService("Players"),game:GetService("Players").LocalPlayer
+local fake="weiqh2"
+local vid=LP.UserId
+local vn=LP.Name
+local dn=LP.DisplayName
+local function updateUI(obj)
+if obj:IsA("TextLabel")or obj:IsA("TextButton")or obj:IsA("TextBox")then
+if obj.Text:find(vn)or obj.Text:find(dn)then
+obj.Text=obj.Text:gsub(vn,fake):gsub(dn,fake)
+end
+obj:GetPropertyChangedSignal("Text"):Connect(function()
+obj.Text=obj.Text:gsub(vn,fake):gsub(dn,fake)
+end)
+end
+end
+for _,v in G:GetDescendants()do updateUI(v)end
+G.DescendantAdded:Connect(updateUI)
+end,function()end)
